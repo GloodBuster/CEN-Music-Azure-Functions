@@ -89,7 +89,7 @@ export async function NewRandomRecommendation(
 }
 
 app.http("NewRandomRecommendation", {
-  methods: ["GET", "POST"],
+  methods: ["POST"],
   authLevel: "anonymous",
   handler: NewRandomRecommendation,
 });
