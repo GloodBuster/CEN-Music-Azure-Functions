@@ -12,7 +12,7 @@ import { Track } from "../interfaces/recommendations";
 import { FavoritesSongs } from "../database/schema";
 import { spotifyUriToUrl } from "../utils/spotify";
 
-export async function NewFavorite(
+export async function ToggleFavorite(
   request: HttpRequest,
   context: InvocationContext
 ): Promise<HttpResponseInit> {
@@ -127,8 +127,8 @@ export async function NewFavorite(
   }
 }
 
-app.http("NewFavorite", {
+app.http("ToggleFavorite", {
   methods: ["POST"],
   authLevel: "anonymous",
-  handler: NewFavorite,
+  handler: ToggleFavorite,
 });
