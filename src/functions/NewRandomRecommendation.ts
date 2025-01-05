@@ -45,24 +45,36 @@ export async function NewRandomRecommendation(
     );
 
     const accessToken = spotifyAccessTokenResponse.data.access_token;
-    const randomSearch = getRandomSearch();
 
-    const spotifySongs = await axios.get<SpotifyResponse>(
-      `${process.env["SPOTIFY_API_URL"]}/v1/search`,
-      {
-        params: {
-          q: randomSearch.randomSearch,
-          type: "track",
-          limit: "10",
-          offset: randomSearch.randomOffset,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    let randomSearchs: {
+      randomSearch: string;
+      randomOffset: number;
+    }[] = [];
 
-    const tracks = spotifySongs.data.tracks.items;
+    for (let i = 0; i < 10; i++) {
+      randomSearchs.push(getRandomSearch());
+    }
+
+    const spotifySongs = await Promise.all([
+      ...randomSearchs.map((randomSearch) =>
+        axios.get<SpotifyResponse>(
+          `${process.env["SPOTIFY_API_URL"]}/v1/search`,
+          {
+            params: {
+              q: randomSearch.randomSearch,
+              type: "track",
+              limit: "1",
+              offset: randomSearch.randomOffset,
+            },
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        )
+      ),
+    ]);
+
+    const tracks = spotifySongs.map((song) => song.data.tracks.items[0]);
 
     const savedTracks = (
       await Recommendations.create({

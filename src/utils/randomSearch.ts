@@ -9,16 +9,7 @@ export const getRandomSearch = (): {
   );
   let randomSearch = "";
 
-  switch (Math.round(Math.random())) {
-    case 0:
-      randomSearch = randomCharacter + "%";
-      break;
-    case 1:
-      randomSearch = "%" + randomCharacter + "%";
-      break;
-  }
+  const randomOffset = Math.floor(Math.random() * 1000);
 
-  const randomOffset = Math.floor(Math.random() * 10000);
-
-  return { randomSearch, randomOffset };
+  return { randomSearch: randomCharacter, randomOffset };
 };
