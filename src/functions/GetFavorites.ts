@@ -6,9 +6,9 @@ import {
 } from "@azure/functions";
 import mongoose from "mongoose";
 import GetUser from "../utils/GetUser";
-import { Recommendations } from "../database/schema";
+import { FavoritesSongs } from "../database/schema";
 
-export async function GetRecommendations(
+export async function GetFavorites(
   request: HttpRequest,
   context: InvocationContext
 ): Promise<HttpResponseInit> {
@@ -25,15 +25,15 @@ export async function GetRecommendations(
       authorizationHeader
     );
 
-    const recommendations = await Recommendations.findOne({ userId: user.id })
+    const favorites = await FavoritesSongs.findOne({ userId: user.id })
       .lean()
       .exec();
 
-    if (!recommendations) {
-      return { body: JSON.stringify({ user, recommendations: [] }) };
+    if (!favorites) {
+      return { body: JSON.stringify({ user, favoriteSongs: [] }) };
     }
 
-    return { body: JSON.stringify({ user, recommendations }) };
+    return { body: JSON.stringify({ user, favoriteSongs: favorites }) };
   } catch (error) {
     return {
       status: 500,
@@ -42,8 +42,8 @@ export async function GetRecommendations(
   }
 }
 
-app.http("GetRecommendations", {
+app.http("GetFavorites", {
   methods: ["GET"],
   authLevel: "anonymous",
-  handler: GetRecommendations,
+  handler: GetFavorites,
 });
