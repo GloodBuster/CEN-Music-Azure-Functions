@@ -2,6 +2,10 @@ export interface MoodRecommendationResponse {
   canciones: string[];
 }
 
+export interface PreferenceRecommendationResponse {
+  recommendedSongs: string[];
+}
+
 export interface SpotifyResponse {
   tracks: {
     href: string;

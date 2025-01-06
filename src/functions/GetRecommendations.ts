@@ -25,13 +25,9 @@ export async function GetRecommendations(
       authorizationHeader
     );
 
-    const recommendations = await Recommendations.findOne({ userId: user.id })
+    const recommendations = await Recommendations.find({ userId: user.id })
       .lean()
       .exec();
-
-    if (!recommendations) {
-      return { body: JSON.stringify({ user, recommendations: [] }) };
-    }
 
     return { body: JSON.stringify({ user, recommendations }) };
   } catch (error) {
