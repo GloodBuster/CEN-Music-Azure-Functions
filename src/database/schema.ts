@@ -5,7 +5,7 @@ const songSchema = new Schema({
   artists: { type: [String], required: true, default: [] },
   album: { type: String, required: false },
   preview_url: { type: String, required: false },
-  spotifyId: { type: String, required: true, unique: true },
+  spotifyId: { type: String, required: true },
   album_image_url: { type: String, required: false },
 });
 
@@ -23,6 +23,7 @@ const recommendationsSchema = new Schema({
     default: "Unknown",
   },
   mood: { type: String, required: false },
+  date: { type: Date, required: true, default: Date.now },
   priorities: {
     type: {
       danceability: { type: Number, required: false, default: 0 },

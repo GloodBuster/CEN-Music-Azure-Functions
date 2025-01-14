@@ -97,6 +97,7 @@ export async function NewMoodRecomendation(
 
     return { body: JSON.stringify({ user, ...savedTracks }) };
   } catch (error) {
+    context.log(error)
     return {
       status: 500,
       body: JSON.stringify({ message: "Ha ocurrido un error inesperado" }),
